@@ -1,0 +1,43 @@
+﻿@page
+@model LocalList.Pages.Projects.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.AddTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Project.AddTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Project.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
