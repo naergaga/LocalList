@@ -25,4 +25,7 @@
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
     <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
 </Project>
