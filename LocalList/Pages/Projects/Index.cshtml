@@ -1,4 +1,5 @@
 @page
+@using LocalList.Utilities.Model
 @model LocalList.Pages.Projects.IndexModel
 
 @{
@@ -39,3 +40,4 @@
         </li>
     }
 </ul>
+@(await Component.InvokeAsync<PageViewComponent>(new PageOptionModel { Option = Model.PageOption,Routes=Request.Query.ToDictionary(t=>t.Key, t => t.Value.ToString()) }))

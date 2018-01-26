@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LocalList.Data;
 using LocalList.Data.Model;
+using LocalList.Utilities.Model;
 
 namespace LocalList.Pages.Projects
 {
@@ -20,10 +21,19 @@ namespace LocalList.Pages.Projects
         }
 
         public IList<Project> Project { get;set; }
+        public PageOption PageOption { get; set; }
 
-        public void OnGet()
+        public void OnGet(int? current,int? size)
         {
-            Project = _context.Project.ToList();
+            var po = new PageOption();
+            po.Current = current ?? 1;
+            po.Size = size ?? 5;
+            int skipNum = (po.Current - 1) * po.Size;
+            var query = _context.Project;
+
+            po.Count = query.Count();
+            Project = query.Skip(skipNum).Take(po.Size).ToList();
+            PageOption = po;
         }
     }
 }
