@@ -6,15 +6,19 @@
     ViewData["Title"] = "Index";
     //int startNum = 1;
 }
-
-<p>
-    <a asp-page="Create">新建</a>
-</p>
+<div class="row mb-2">
+    <div class="ml-1">
+        <a asp-page="Create">新建</a>
+    </div>
+    <form method="get" asp-page="/Project/Index" style="flex:1;" class="btn-group col-lg-5">
+        <input class="form-control" name="q" />
+        <button class="btn btn-secondary">查询</button>
+    </form>
+</div>
 <ul class="list-unstyled">
     @foreach (var item in Model.Project)
     {
-
-        <li class="clearfix mb-2">
+        <li class="clearfix mb-2 border border-info p-1">
             <h5>
                 @*<span style="display:inline-block;padding:0 0.5rem" class="text-white rounded-circle bg-secondary">@startNum</span>*@
                 @Html.DisplayFor(modelItem => item.Name)
