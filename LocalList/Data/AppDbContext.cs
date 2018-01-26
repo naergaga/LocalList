@@ -15,7 +15,7 @@ namespace LocalList.Data
         {
             base.OnModelCreating(modelBuilder);
             //Project 的 Name 唯一
-            modelBuilder.Entity<Project>().HasAlternateKey(t=>t.Name);
+            modelBuilder.Entity<Project>().HasIndex(t=>t.Name).IsUnique();
         }
 
         public DbSet<Project> Project { get; set; }

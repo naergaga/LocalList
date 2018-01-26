@@ -1,54 +1,41 @@
-﻿@page
+@page
 @model LocalList.Pages.Projects.IndexModel
 
 @{
     ViewData["Title"] = "Index";
+    //int startNum = 1;
 }
-
-<h2>Index</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">新建</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Project[0].Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Project[0].Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Project[0].Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Project[0].AddTime)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Project) {
-        <tr>
-            <td>
+<ul class="list-unstyled">
+    @foreach (var item in Model.Project)
+    {
+
+        <li class="clearfix mb-2">
+            <h5>
+                @*<span style="display:inline-block;padding:0 0.5rem" class="text-white rounded-circle bg-secondary">@startNum</span>*@
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
+                <small>(@item.Title)</small>
+            </h5>
+            <code>
                 @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddTime)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            </code>
+            <div>
+                <small>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </small>
+                <div class="float-right">
+                    <small>
+                        @Html.DisplayFor(modelItem => item.AddTime)
+                    </small>
+                    <small>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">修改</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
+                    </small>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

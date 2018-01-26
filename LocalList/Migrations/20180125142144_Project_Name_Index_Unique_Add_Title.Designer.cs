@@ -11,9 +11,10 @@ using System;
 namespace LocalList.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180125142144_Project_Name_Index_Unique_Add_Title")]
+    partial class Project_Name_Index_Unique_Add_Title
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +34,7 @@ namespace LocalList.Pages.Projects
                 return Page();
             }
 
+            Project.AddTime = DateTime.Now;
             _context.Project.Add(Project);
             await _context.SaveChangesAsync();
 

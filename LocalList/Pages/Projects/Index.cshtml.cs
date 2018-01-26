@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +21,9 @@ namespace LocalList.Pages.Projects
 
         public IList<Project> Project { get;set; }
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            Project = await _context.Project.ToListAsync();
+            Project = _context.Project.ToList();
         }
     }
 }

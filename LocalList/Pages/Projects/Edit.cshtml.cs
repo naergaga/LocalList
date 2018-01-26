@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +46,15 @@ namespace LocalList.Pages.Projects
                 return Page();
             }
 
-            _context.Attach(Project).State = EntityState.Modified;
+            var item = _context.Project.SingleOrDefault(t => t.Id == Project.Id);
+
+            if (item == null) return NotFound();
+
+            item.Name = Project.Name;
+            item.Title = Project.Title;
+            item.Description = Project.Description;
+
+            _context.Update(item);
 
             try
             {

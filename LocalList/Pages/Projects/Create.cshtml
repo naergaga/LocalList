@@ -5,9 +5,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
-
-<h4>Project</h4>
+<h5 class="mt-2">项目创建</h5>
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -19,17 +17,22 @@
                 <span asp-validation-for="Project.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Project.Title" class="control-label"></label>
+                <input asp-for="Project.Title" class="form-control" />
+                <span asp-validation-for="Project.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Project.Address" class="control-label"></label>
                 <input asp-for="Project.Address" class="form-control" />
                 <span asp-validation-for="Project.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Project.Description" class="control-label"></label>
-                <input asp-for="Project.Description" class="form-control" />
+                <textarea rows="4" asp-for="Project.Description" class="form-control"></textarea>
                 <span asp-validation-for="Project.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="添加" class="btn btn-default" />
             </div>
         </form>
     </div>
