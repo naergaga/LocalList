@@ -15,7 +15,7 @@
     </style>
 }
 <div class="row">
-    <div class="col-md-3 d-flex" style="flex-direction:column">
+    <div class="col-md-3 order-2 order-md-1 d-flex" style="flex-direction:column">
         <div class="list-group">
             <a class="list-group-item" href="#tags" data-toggle="collapse" role="button">标签</a>
             <div id="tags" class="collapse@(Model.FilterTags.Count>0?" show":string.Empty)">
@@ -28,7 +28,7 @@
         </div>
         <div style="flex:1;background:url('/images/nichijou.jpg') center no-repeat"></div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 order-1 order-md-2">
         <div class="row mb-2">
             <div class="ml-1">
                 <a asp-page="Create" class="">新建</a>
