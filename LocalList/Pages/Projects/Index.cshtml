@@ -8,9 +8,10 @@
 }
 <div class="row">
     <div class="col-md-3 d-flex" style="flex-direction:column">
-        <ul class="list-group">
-            <li class="list-group-item">标签</li>
-        </ul>
+        <div class="list-group">
+            <a class="list-group-item" href="#">标签</a>
+            <a class="list-group-item" asp-page="/Tags/Index">管理标签</a>
+        </div>
         <div style="flex:1;background:url('/images/nichijou.jpg') center no-repeat"></div>
     </div>
     <div class="col-md-9">
@@ -25,33 +26,33 @@
         </div>
         <ul class="list-unstyled">
             @foreach (var item in Model.Project)
-            {
-                <li class="clearfix mb-2 border border-info p-1">
-                    <h5>
-                        @*<span style="display:inline-block;padding:0 0.5rem" class="text-white rounded-circle bg-secondary">@startNum</span>*@
-                        @Html.DisplayFor(modelItem => item.Name)
-                        <small>(@item.Title)</small>
-                    </h5>
-                    <code>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </code>
-                    <div>
+        {
+            <li class="clearfix mb-2 border border-info p-1">
+                <h5>
+                    @*<span style="display:inline-block;padding:0 0.5rem" class="text-white rounded-circle bg-secondary">@startNum</span>*@
+                    @Html.DisplayFor(modelItem => item.Name)
+                    <small>(@item.Title)</small>
+                </h5>
+                <code>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </code>
+                <div>
+                    <small>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </small>
+                    <div class="float-right">
                         <small>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.AddTime)
                         </small>
-                        <div class="float-right">
-                            <small>
-                                @Html.DisplayFor(modelItem => item.AddTime)
-                            </small>
-                            <small>
-                                <a asp-page="./Edit" asp-route-id="@item.Id">修改</a>
-                                <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
-                            </small>
-                        </div>
+                        <small>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">修改</a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
+                        </small>
                     </div>
-                </li>
-            }
+                </div>
+            </li>
+    }
         </ul>
+        @(await Component.InvokeAsync<PageViewComponent>(new PageOptionModel { Option = Model.PageOption, Routes = Request.Query.ToDictionary(t => t.Key, t => t.Value.ToString()) }))
     </div>
 </div>
-@(await Component.InvokeAsync<PageViewComponent>(new PageOptionModel { Option = Model.PageOption,Routes=Request.Query.ToDictionary(t=>t.Key, t => t.Value.ToString()) }))

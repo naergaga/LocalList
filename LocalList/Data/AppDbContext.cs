@@ -16,8 +16,13 @@ namespace LocalList.Data
             base.OnModelCreating(modelBuilder);
             //Project 的 Name 唯一
             modelBuilder.Entity<Project>().HasIndex(t=>t.Name).IsUnique();
+            //ProjectTag key
+            modelBuilder.Entity<ProjectTag>().HasKey(t => new { t.ProjectId, t.TagId });
+            modelBuilder.Entity<Tag>().HasIndex(t => t.Name).IsUnique();
         }
 
         public DbSet<Project> Project { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        public DbSet<ProjectTag> ProjectTag { get; set; }
     }
 }
