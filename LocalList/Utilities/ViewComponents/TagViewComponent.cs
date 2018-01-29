@@ -20,10 +20,10 @@ namespace LocalList.Utilities.ViewComponents
 
         public TagModel Tag { get; set; }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(List<int> tagId,string inputName)
         {
             var tags = _context.Tag.ToList();
-            Tag = new TagModel { Tags = tags };
+            Tag = new TagModel { Tags = tags,SelectTags= tagId ,InputName=inputName??"tags"};
             return View(Tag);
         }
     }
@@ -32,5 +32,7 @@ namespace LocalList.Utilities.ViewComponents
     public class TagModel
     {
         public List<Tag> Tags { get; set; }
+        public List<int> SelectTags { get; set; }
+        public string InputName { get; set; }
     }
 }

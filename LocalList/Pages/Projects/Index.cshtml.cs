@@ -20,20 +20,25 @@ namespace LocalList.Pages.Projects
             _context = context;
         }
 
-        public IList<Project> Project { get;set; }
+        public IList<Project> Project { get; set; }
         public PageOption PageOption { get; set; }
+        public List<int> FilterTags { get; set; }
 
-        public void OnGet(int? current,int? size,string q,List<int> tags)
+        public void OnGet(int? current, int? size, string q, List<int> tags)
         {
+            FilterTags = tags;
+
             var po = new PageOption();
             po.Current = current ?? 1;
             po.Size = size ?? 5;
             int skipNum = (po.Current - 1) * po.Size;
             var query = from p in _context.Project
-                        join pt in _context.ProjectTag on p.Id equals pt.ProjectId
-                        join t in _context.Tag on pt.TagId equals t.Id
-                        where (string.IsNullOrEmpty(q) || p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q))
-                        && tags.Contains(t.Id)
+                        join pt in _context.ProjectTag on p.Id equals pt.ProjectId into gj
+                        from pt in gj.DefaultIfEmpty()
+                        join t in _context.Tag on pt.TagId equals t.Id into gj2
+                        from t in gj2.DefaultIfEmpty()
+                        where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q)))
+                        && (tags.Count == 0 || tags.Contains(t.Id))
                         select p;
 
             po.Count = query.Count();

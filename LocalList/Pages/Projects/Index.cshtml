@@ -4,7 +4,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    //int startNum = 1;
 }
 @section Styles{ 
     <style>
@@ -19,9 +18,9 @@
     <div class="col-md-3 d-flex" style="flex-direction:column">
         <div class="list-group">
             <a class="list-group-item" href="#tags" data-toggle="collapse" role="button">标签</a>
-            <div id="tags" class="collapse">
+            <div id="tags" class="collapse@(Model.FilterTags.Count>0?" show":string.Empty)">
                 <form method="get">
-                    @(await Component.InvokeAsync<TagViewComponent>())
+                    @(await Component.InvokeAsync<TagViewComponent>(new { tagId = Model.FilterTags }))
                     <button class="btn btn-primary">筛选</button>
                 </form>
             </div>
@@ -32,12 +31,13 @@
     <div class="col-md-9">
         <div class="row mb-2">
             <div class="ml-1">
-                <a asp-page="Create">新建</a>
+                <a asp-page="Create" class="">新建</a>
             </div>
             <form method="get" asp-page="/Project/Index" style="flex:1;" class="btn-group col-lg-5">
                 <input class="form-control" name="q" />
                 <button class="btn btn-secondary">查询</button>
             </form>
+            <a class="small text-secondary" asp-page="/Projects/Query">高级查询</a>
         </div>
         <ul class="list-unstyled">
             @foreach (var item in Model.Project)

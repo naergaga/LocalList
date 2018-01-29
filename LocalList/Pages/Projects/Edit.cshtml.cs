@@ -8,20 +8,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LocalList.Data;
 using LocalList.Data.Model;
+using LocalList.Data.Services;
 
 namespace LocalList.Pages.Projects
 {
     public class EditModel : PageModel
     {
         private readonly LocalList.Data.AppDbContext _context;
+        private readonly TagService _service;
 
-        public EditModel(LocalList.Data.AppDbContext context)
+        public EditModel(LocalList.Data.AppDbContext context,TagService service)
         {
             _context = context;
+            _service = service;
         }
 
         [BindProperty]
         public Project Project { get; set; }
+        [BindProperty]
+        public List<int> TagId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +41,8 @@ namespace LocalList.Pages.Projects
             {
                 return NotFound();
             }
+
+            TagId = _service.GetTagId(Project.Id);
             return Page();
         }
 
@@ -47,6 +54,12 @@ namespace LocalList.Pages.Projects
             }
 
             var item = _context.Project.SingleOrDefault(t => t.Id == Project.Id);
+            var tags = _service.GetTagId(Project.Id);
+            //delete id
+            _service.RemoveProjectTags(tags.Except(TagId));
+
+            //add id
+            _service.AddProjectTags(TagId.Except(tags),item.Id);
 
             if (item == null) return NotFound();
 
