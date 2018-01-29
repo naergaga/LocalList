@@ -23,13 +23,18 @@ namespace LocalList.Pages.Projects
         public IList<Project> Project { get;set; }
         public PageOption PageOption { get; set; }
 
-        public void OnGet(int? current,int? size,string q)
+        public void OnGet(int? current,int? size,string q,List<int> tags)
         {
             var po = new PageOption();
             po.Current = current ?? 1;
             po.Size = size ?? 5;
             int skipNum = (po.Current - 1) * po.Size;
-            var query = _context.Project.Where(t=>string.IsNullOrEmpty(q) || t.Name.Contains(q) || t.Title.Contains(q) || t.Description.Contains(q));
+            var query = from p in _context.Project
+                        join pt in _context.ProjectTag on p.Id equals pt.ProjectId
+                        join t in _context.Tag on pt.TagId equals t.Id
+                        where (string.IsNullOrEmpty(q) || p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q))
+                        && tags.Contains(t.Id)
+                        select p;
 
             po.Count = query.Count();
             Project = query.Skip(skipNum).Take(po.Size).ToList();

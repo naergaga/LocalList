@@ -1,0 +1,8 @@
+@using LocalList.Utilities.ViewComponents
+@model TagModel
+<ul class="list-unstyled">
+    @foreach (var item in Model.Tags)
+    {
+        <li><label>@item.Name</label><input type="checkbox" name="tags" value="@item.Id"/></li>
+    }
+</ul>

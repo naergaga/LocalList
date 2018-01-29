@@ -6,10 +6,25 @@
     ViewData["Title"] = "Index";
     //int startNum = 1;
 }
+@section Styles{ 
+    <style>
+        #tags {
+            border-left: 1px solid rgba(0, 0, 0, 0.125);
+            border-right: 1px solid rgba(0, 0, 0, 0.125);
+            padding: 0.3rem .5rem;
+        }
+    </style>
+}
 <div class="row">
     <div class="col-md-3 d-flex" style="flex-direction:column">
         <div class="list-group">
-            <a class="list-group-item" href="#">标签</a>
+            <a class="list-group-item" href="#tags" data-toggle="collapse" role="button">标签</a>
+            <div id="tags" class="collapse">
+                <form method="get">
+                    @(await Component.InvokeAsync<TagViewComponent>())
+                    <button class="btn btn-primary">筛选</button>
+                </form>
+            </div>
             <a class="list-group-item" asp-page="/Tags/Index">管理标签</a>
         </div>
         <div style="flex:1;background:url('/images/nichijou.jpg') center no-repeat"></div>
