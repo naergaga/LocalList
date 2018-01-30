@@ -20,7 +20,7 @@
             <a class="list-group-item" href="#tags" data-toggle="collapse" role="button">标签</a>
             <div id="tags" class="collapse@(Model.FilterTags.Count>0?" show":string.Empty)">
                 <form method="get">
-                    @(await Component.InvokeAsync<TagViewComponent>(new { tagId = Model.FilterTags }))
+                    @(await Component.InvokeAsync<TagViewComponent>(new { tagId = Model.FilterTags, itemClassName = "col-4 col-md-12 col-lg-6" }))
                     <button class="btn btn-primary">筛选</button>
                 </form>
             </div>

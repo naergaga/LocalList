@@ -65,6 +65,7 @@ namespace LocalList.Pages.Projects
 
             item.Name = Project.Name;
             item.Title = Project.Title;
+            item.Address = Project.Address;
             item.Description = Project.Description;
 
             _context.Update(item);

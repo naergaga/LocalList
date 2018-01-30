@@ -33,19 +33,6 @@ namespace LocalList.Pages.Projects
             po.Current = current ?? 1;
             po.Size = size ?? 5;
             int skipNum = (po.Current - 1) * po.Size;
-            //tag Id 对应的 project Id
-            //var projectId = from t in _context.Tag
-            //             join pt in _context.ProjectTag on t.Id equals pt.TagId
-            //             where tags.Contains(t.Id)
-            //             select pt.ProjectId;
-
-            //var query = from p in _context.Project
-            //            //是否包含关键字
-            //             where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q)))
-            //             //不查询标签或 项目Id为
-            //             && (tags.Count == 0 || projectId.Contains(p.Id))
-            //             select p;
-
 
             IQueryable<Project> query;
             IQueryable<int> pidList=null;
@@ -62,7 +49,7 @@ namespace LocalList.Pages.Projects
             }
 
             query = from p in _context.Project
-                         where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q)))
+                         where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q) || p.Address.Contains(q)))
                          &&(!hasTag || pidList.Contains(p.Id))
                          select p;
 
