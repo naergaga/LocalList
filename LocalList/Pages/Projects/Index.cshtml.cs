@@ -34,17 +34,38 @@ namespace LocalList.Pages.Projects
             po.Size = size ?? 5;
             int skipNum = (po.Current - 1) * po.Size;
             //tag Id 对应的 project Id
-            var projectId = from t in _context.Tag
-                         join pt in _context.ProjectTag on t.Id equals pt.TagId
-                         where tags.Contains(t.Id)
-                         select pt.ProjectId;
+            //var projectId = from t in _context.Tag
+            //             join pt in _context.ProjectTag on t.Id equals pt.TagId
+            //             where tags.Contains(t.Id)
+            //             select pt.ProjectId;
 
-            var query = from p in _context.Project
-                        //是否包含关键字
+            //var query = from p in _context.Project
+            //            //是否包含关键字
+            //             where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q)))
+            //             //不查询标签或 项目Id为
+            //             && (tags.Count == 0 || projectId.Contains(p.Id))
+            //             select p;
+
+
+            IQueryable<Project> query;
+            IQueryable<int> pidList=null;
+            bool hasTag = tags.Count > 0;
+
+            if (hasTag)
+            {
+                IQueryable<ProjectTag> projectList = _context.ProjectTag;
+                foreach (var item in tags)
+                {
+                    projectList = projectList.Where(t => t.TagId == item);
+                }
+                pidList = projectList.Select(t => t.ProjectId);
+            }
+
+            query = from p in _context.Project
                          where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q)))
-                         //不查询标签或 项目Id为
-                         && (tags.Count == 0 || projectId.Contains(p.Id))
+                         &&(!hasTag || pidList.Contains(p.Id))
                          select p;
+
             po.Count = query.Count();
             Project = query.Skip(skipNum).Take(po.Size).ToList();
             PageOption = po;
