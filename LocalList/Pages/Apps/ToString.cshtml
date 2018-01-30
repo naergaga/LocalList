@@ -1,0 +1,18 @@
+@page
+@model LocalList.Pages.Apps.ToStringModel
+@{
+    ViewData["Title"] = "ToString";
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Model.Code"></label>
+        <textarea rows="8" class="form-control" asp-for="Model.Code"></textarea>
+    </div>
+    <p>
+        @(Model.BuildString)
+    </p>
+    <div class="form-group">
+        <button class="btn btn-info">生成</button>
+    </div>
+</form>

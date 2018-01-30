@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LocalList.Data;
 using LocalList.Data.Services;
+using LocalList.Utilities.Apps;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace LocalList
             services.AddMvc();
 
             services.AddTransient<TagService>();
+            services.AddTransient<ToStringService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

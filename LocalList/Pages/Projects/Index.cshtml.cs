@@ -51,6 +51,7 @@ namespace LocalList.Pages.Projects
             query = from p in _context.Project
                          where (string.IsNullOrEmpty(q) || (p.Name.Contains(q) || p.Title.Contains(q) || p.Description.Contains(q) || p.Address.Contains(q)))
                          &&(!hasTag || pidList.Contains(p.Id))
+                         orderby p.AddTime descending
                          select p;
 
             po.Count = query.Count();
