@@ -5,12 +5,84 @@
 @{
     ViewData["Title"] = "Index";
 }
-@section Styles{ 
+@section Scripts{
+    <script>
+        function copyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+
+            //
+            // *** This styling is an extra step which is likely not required. ***
+            //
+            // Why is it here? To ensure:
+            // 1. the element is able to have focus and selection.
+            // 2. if element was to flash render it has minimal visual impact.
+            // 3. less flakyness with selection and copying which **might** occur if
+            //    the textarea element is not visible.
+            //
+            // The likelihood is the element won't even render, not even a flash,
+            // so some of these are just precautions. However in IE the element
+            // is visible whilst the popup box asking the user for permission for
+            // the web page to copy to the clipboard.
+            //
+
+            // Place in top-left corner of screen regardless of scroll position.
+            textArea.style.position = 'fixed';
+            textArea.style.top = 0;
+            textArea.style.left = 0;
+
+            // Ensure it has a small width and height. Setting to 1px / 1em
+            // doesn't work as this gives a negative w/h on some browsers.
+            textArea.style.width = '2em';
+            textArea.style.height = '2em';
+
+            // We don't need padding, reducing the size if it does flash render.
+            textArea.style.padding = 0;
+
+            // Clean up any borders.
+            textArea.style.border = 'none';
+            textArea.style.outline = 'none';
+            textArea.style.boxShadow = 'none';
+
+            // Avoid flash of white box if rendered for any reason.
+            textArea.style.background = 'transparent';
+
+
+            textArea.value = text;
+
+            document.body.appendChild(textArea);
+
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        var paths = $("code.path");
+        paths.click(function () {
+            copyTextToClipboard($(this).data("path1"));
+        });
+        $(function () {
+            $("div.path button.copy").popover({ container: "body" });
+        });
+    </script>
+}
+@section Styles{
     <style>
         #tags {
             border-left: 1px solid rgba(0, 0, 0, 0.125);
             border-right: 1px solid rgba(0, 0, 0, 0.125);
             padding: 0.3rem .5rem;
+        }
+
+        .full-line {
+            display: block;
+            text-align: center;
         }
     </style>
 }
@@ -29,7 +101,7 @@
         <div style="flex:1;background:url('/images/nichijou.jpg') center no-repeat"></div>
     </div>
     <div class="col-md-9 order-1 order-md-2">
-        <div class="row mb-2">
+        <div class="d-flex flex-wrap mb-2">
             <div class="ml-1">
                 <a asp-page="Create" class="">新建</a>
             </div>
@@ -39,34 +111,25 @@
             </form>
             <a class="small text-secondary" asp-page="/Projects/Query">高级查询</a>
         </div>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled project-list">
             @foreach (var item in Model.Project)
-        {
-            <li class="clearfix mb-2 border border-info p-1">
-                <h5>
-                    @*<span style="display:inline-block;padding:0 0.5rem" class="text-white rounded-circle bg-secondary">@startNum</span>*@
-                    @Html.DisplayFor(modelItem => item.Name)
-                    <small>(@item.Title)</small>
-                </h5>
-                <code>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </code>
-                <div>
-                    <small>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </small>
-                    <div class="float-right">
-                        <small>
-                            @Html.DisplayFor(modelItem => item.AddTime)
-                        </small>
-                        <small>
+            {
+                <li class="clearfix mb-lg-2">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <div class="name">
+                            @Html.DisplayFor(modelItem => item.Name)
+                            <small>(@item.Title)</small>
+                        </div>
+                        <code class="path" data-path1="@item.Address">
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </code>
+                        <small class="action">
                             <a asp-page="./Edit" asp-route-id="@item.Id">修改</a>
                             <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
                         </small>
                     </div>
-                </div>
-            </li>
-    }
+                </li>
+            }
         </ul>
         @(await Component.InvokeAsync<PageViewComponent>(new PageOptionModel { Option = Model.PageOption, Routes = Request.Query.ToDictionary(t => t.Key, t => t.Value.ToString()) }))
     </div>

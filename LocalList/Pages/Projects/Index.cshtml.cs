@@ -31,7 +31,7 @@ namespace LocalList.Pages.Projects
 
             var po = new PageOption();
             po.Current = current ?? 1;
-            po.Size = size ?? 5;
+            po.Size = size ?? 15;
             int skipNum = (po.Current - 1) * po.Size;
 
             IQueryable<Project> query;
